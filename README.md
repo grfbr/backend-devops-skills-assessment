@@ -10,40 +10,40 @@
 
 ## Endpoints - USERS
 * POST /api/register (Register new user)
-  ** Mandatory Fields: Name, E-mail, Password
+    * Mandatory Fields: Name, E-mail, Password
 
 * POST /api/login (Login and get the JWT token)
-  ** Mandatory Fields: E-mail, Password
+    * Mandatory Fields: E-mail, Password
 
 * GET /api/me (Get user details)
-  ** Auth: Bearer {{TOKEN}}
+    * Auth: Bearer {{TOKEN}}
 
 * GET /api/logout (Get user details)
-  ** Auth: Bearer {{TOKEN}}
+    * Auth: Bearer {{TOKEN}}
 
 ---
 
 ## Endpoints - Items
 * GET /api/items (List all Items that belongs to the user)
-  ** Auth: Bearer {{TOKEN}}
+    * Auth: Bearer {{TOKEN}}
 
 * POST /api/items (List all Items that belongs to the user)
-  ** Auth: Bearer {{TOKEN}}
-  ** Mandatory Fields: Name (string), Description (string), Quantity (Integer)
+    * Auth: Bearer {{TOKEN}}
+    * Mandatory Fields: Name (string), Description (string), Quantity (Integer)
 
 * GET /api/items/{{id}} (Show all items details)
-  ** Auth: Bearer {{TOKEN}}
+    * Auth: Bearer {{TOKEN}}
 
 * PUT /api/items/{{id}} (Edit items details)
-  ** Auth: Bearer {{TOKEN}}
-  ** Mandatory Fields: Name (string), Description (string), Quantity (Integer)
+    * Auth: Bearer {{TOKEN}}
+    * Mandatory Fields: Name (string), Description (string), Quantity (Integer)
 
 * PUT /api/items/quantity/{{id}} (Edit only the item's quantity)
-  ** Auth: Bearer {{TOKEN}}
-  ** Mandatory Fields: Quantity (Integer)
+    * Auth: Bearer {{TOKEN}}
+    * Mandatory Fields: Quantity (Integer)
 
 * DELETE /api/items/{{id}} (Delete Item)
-  ** Auth: Bearer {{TOKEN}}
+    * Auth: Bearer {{TOKEN}}
 
 ---
 
