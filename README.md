@@ -49,10 +49,11 @@
 
 ## How to Run
 
-Clone the project and install the packages using composer
+Clone the project, install the packages using composer and rename the .env file
 ```sh
 git clone https://github.com/grfbr/Auckland-Unlimited-Test.git project-test
 cd project-test
+mv .env.example .env
 composer install
 ```
 
