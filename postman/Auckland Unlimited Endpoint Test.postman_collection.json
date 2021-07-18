@@ -1,0 +1,755 @@
+{
+	"info": {
+		"_postman_id": "61d8d7a4-0662-4e3f-9fb8-ab9e5cc26b26",
+		"name": "Auckland Unlimited Endpoint Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "USER | Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);",
+							"const response = JSON.parse(responseBody);",
+							"",
+							"if(responseCode.code == 200) {",
+							"    try {",
+							"        if(response.status == true) {",
+							"            tests[`${response.message}`] = true;",
+							"            pm.collectionVariables.unset(\"token\");",
+							"        } else {",
+							"            pm.collectionVariables.unset(\"token\");",
+							"        }",
+							"",
+							"    } catch(e) {",
+							"        console.log(e);",
+							"    }",
+							"} else {",
+							"    const errors = response.error;",
+							"    if(errors) {",
+							"        for (const key in errors) {",
+							"            tests[`${errors[key]}`] = false;",
+							"        }",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Fernando\",\n    \"email\":\"fernando@gmail.com\",\n    \"password\":\"123456\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER | Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);",
+							"",
+							"if(responseCode.code == 200) {",
+							"    try {",
+							"        const response = JSON.parse(responseBody);",
+							"        if(response.status == true) {",
+							"            tests['Token Saved'] = true;",
+							"            console.log(response.token)",
+							"            pm.collectionVariables.set(\"token\", response.token);",
+							"        } else {",
+							"            pm.collectionVariables.unset(\"token\");",
+							"        }",
+							"",
+							"    } catch(e) {",
+							"        console.log(e);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"fernando@gmail.com\",\n    \"password\":\"123456\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER | Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);",
+							"",
+							"if(responseCode.code == 200) {",
+							"    try {",
+							"        const response = JSON.parse(responseBody);",
+							"        if(response.status == true) {",
+							"            const errors = response.user;",
+							"            if(errors) {",
+							"                for (const key in errors) {",
+							"                    tests[`${key} : ${errors[key]}`] = true;",
+							"                }",
+							"            }",
+							"        } else {",
+							"            pm.collectionVariables.unset(\"token\");",
+							"        }",
+							"",
+							"    } catch(e) {",
+							"        console.log(e);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/me",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ITEMS | Create",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"description\": \"{{$randomLoremSentence}}\",\n    \"quantity\": {{$randomInt}}\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ITEMS | List",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);",
+							"",
+							"if(responseCode.code == 200) {",
+							"    try {",
+							"        const response = JSON.parse(responseBody);",
+							"        if(response.status == true) {",
+							"            const count = response.count;",
+							"            tests[`Total of item(s) : ${count}`] = true;",
+							"",
+							"            const randomValue = (list) => {",
+							"                return list[Math.floor(Math.random() * list.length)];",
+							"            };",
+							"",
+							"            if(count > 0) {",
+							"                const item = randomValue(response.items);",
+							"                pm.collectionVariables.set(\"item\", item.id);",
+							"                tests[`Item to test : ${item.name}`] = true;",
+							"            } else {",
+							"                pm.collectionVariables.unset(\"item\");",
+							"            }",
+							"        }",
+							"",
+							"    } catch(e) {",
+							"        console.log(e);",
+							"    }",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ITEMS | Show Item",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);",
+							"",
+							"if(responseCode.code == 200) {",
+							"    try {",
+							"        const response = JSON.parse(responseBody);",
+							"        if(response.status == true) {",
+							"            const item = response.data;",
+							"            tests[`Name: ${item.name}`] = true;",
+							"            tests[`Description: ${item.description}`] = true;",
+							"            tests[`Quantity: ${item.quantity}`] = true;",
+							"",
+							"           ",
+							"        }",
+							"",
+							"    } catch(e) {",
+							"        console.log(e);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items/{{item}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ITEMS | Edit Item",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"description\": \"{{$randomLoremSentence}}\",\n    \"quantity\": {{$randomInt}}\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items/{{item}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ITEMS | Edit Item Quantity",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quantity\": {{$randomInt}}\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items/quantity/{{item}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"quantity",
+						"{{item}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ITEMS | Delete",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"description\": \"{{$randomLoremSentence}}\",\n    \"quantity\": {{$randomInt}}\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items/{{item}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"{{item}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER | Logout",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests['Status code is 200 (OK)'] = (responseCode.code == 200);",
+							"",
+							"if(responseCode.code == 200) {",
+							"    try {",
+							"        const response = JSON.parse(responseBody);",
+							"        if(response.status == true) {",
+							"            tests[`${response.message}`] = true;",
+							"            pm.collectionVariables.unset(\"token\");",
+							"        } else {",
+							"            pm.collectionVariables.unset(\"token\");",
+							"        }",
+							"",
+							"    } catch(e) {",
+							"        console.log(e);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/logout",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8880"
+		},
+		{
+			"key": "item",
+			"value": ""
+		}
+	]
+}
