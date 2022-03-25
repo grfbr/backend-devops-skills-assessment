@@ -1,4 +1,4 @@
-# Auckland Unlimited Backend/DevOps skills assessment
+# Backend/DevOps skills assessment
 
 ## Project Details
 - Project mabe using Laravel 8 with JWT Auth;
@@ -51,7 +51,7 @@
 
 Clone the project, install the packages using composer and rename the .env file
 ```sh
-git clone https://github.com/grfbr/Auckland-Unlimited-Test.git project-test
+git clone https://github.com/grfbr/backend-devops-skills-assessmen.git project-test
 cd project-test
 mv .env.example .env
 composer install
